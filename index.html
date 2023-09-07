@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="style.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <title>Black Jack</title>
+    </head>
+    <body>
+        <div id="menu" class="menu abs0 flex-center">
+            <div>
+                <div class="flex-center">
+                    <button onclick="Start()" class="green"><i class='bx bxs-right-arrow'></i> Start</button>
+                    <button onclick="showPanel('rules')"><i class='bx bxs-notepad'></i> Rules</button>
+                </div>
+
+                <div class="bet">
+                    <div class="bet-box flex-center">
+                        <div>Coins</div>
+                        <div class="coin"><i class='bx bxs-coin-stack'></i><span id="menu-coins">0</span></div>
+                    </div>
+                    <div class="bet-box flex-center" style="margin-top: 25px;">
+                        <div>Bet</div>
+                        <div class="coin flex-center">
+                            <button class="minus red" onclick="setBet(-25)"><i class='bx bx-minus'></i></button>
+                            <i class='bx bxs-coin-stack'></i><span id="set-bet">0</span>
+                            <button class="plus green" onclick="setBet(25)"><i class='bx bx-plus'></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="game" class="game abs0 flex-center hide">
+            <div>
+                <div class="top">
+                    <button onclick="showPanel('menu')" class="top-button"><i class='bx bx-arrow-back'></i><span>Menu</span></button>
+                    <div class="title flex-center">Black Jack</div>
+                    <div class="coins flex-center">
+                        <span class="small">bet</span>
+                        <i class='bx bxs-coin-stack'></i><span id="bet">0</span>
+                        <span class="small">coins</span>
+                        <i class='bx bxs-coin-stack'></i><span id="coins">0</span>
+                    </div>
+                </div>
+
+                <div class="dealer">
+                    <div id="dealer-cards" class="cards flex-center"></div>
+                    <div id="dealer-value" class="value flex-center"></div>
+                </div>
+                <div class="player">
+                    <div id="player-cards" class="cards flex-center"></div>
+                    <div id="player-value" class="value flex-center"></div>
+                </div>
+
+                <div class="buttons">
+                    <div id="game-bt" class="flex-center">
+                        <button onclick="Hit()" class="green">Hit</button>
+                        <button onclick="Double()" id="double">Double</button>
+                        <button onclick="Stand()" class="red">Stand</button>
+                        <button onclick="Surrender()" id="surrender" class="red">Surrender</button>
+                    </div>
+                    <div id="new-bt" class="hide flex-center">
+                        <button onclick="Start()" class="green">Start</button>
+                    </div>
+                </div>
+                
+                <div id="message" class="message"></div>
+            </div>
+        </div>
+
+        <div id="rules" class="rules abs0 flex-center hide">
+            <div>
+                <div class="top">
+                    <button onclick="showPanel('menu')" class="top-button"><i class='bx bx-arrow-back'></i><span>Menu</span></button>
+                    <div class="title flex-center">Szabályok</div>
+                </div>
+
+                <div class="rules-text">
+                    <h3>Lapok értékei</h3>
+                    <p>A lapok pontértékei 1 és 11 közöttiek lehetnek. A lapok színének a játékban nincs jelentősége.</p>
+                    <table>
+                        <tr>
+                            <td>Ász</td>
+                            <td>1 vagy 11</td>
+                        </tr>
+                        <tr>
+                            <td>Király, Dáma, Bubi</td>
+                            <td>10</td>
+                        </tr>
+                        <tr>
+                            <td>Számozott lapok (2-10)</td>
+                            <td>A lapon lévő szám értéke</td>
+                        </tr>
+                    </table>
+
+                    <h3>Játék menete</h3>
+                    <p>Az osztó a játékosnak oszt két lapot, majd egyet saját magának is. A játékos az osztást követően lapot kérhet (Hit), megállhat (Stand).</p>
+                    <p>Ha a játékos megállt, akkor kezdhet az osztó saját magának lapot osztani. Az osztónak 16-nál kötelezően lapot kell kérnie, és 17-nél már kötelezően meg kell állnia.</p>
+                    
+                    <h3>Kifejezések</h3>
+                    <table>
+                        <tr>
+                            <td>Hit</td>
+                            <td>Ez a lapkérésre használt kifejezés.</td>
+                        </tr>
+                        <tr>
+                            <td>Stand</td>
+                            <td>A megállásra használt kifejezés.</td>
+                        </tr>
+                        <tr>
+                            <td>Double</td>
+                            <td>Ha a játékos első két lapja elég erős ahhoz, hogy a harmadik lappal megnyerje a játékot, akkor ezzel a tétet duplázhatja.<br>Ezután már csak egy lapot kaphat, további lapot nem kérhet.</td>
+                        </tr>
+                        <tr>
+                            <td>Surrender</td>
+                            <td>A játékos által, a játék feladására használt kifejezés.<br>Ha a játékosnak csak az osztás utáni két lapja van meg, akkor ezzel kiszállhat a játékból, és visszakaphatja a tétje felét.</td>
+                        </tr>
+                        <tr>
+                            <td>Bust</td>
+                            <td>Ha a játékos lapjainak összértéke a 21-et meghaladja, akkor „besokall” és elveszíti a tétjét.</td>
+                        </tr>
+                        <tr>
+                            <td>Push</td>
+                            <td>Ha a játékos és az osztó lapjainak összértéke egyforma, akkor a Push kifejezés a használatos az eredmény közlésére.</td>
+                        </tr>
+                        <tr>
+                            <td>Blackjack</td>
+                            <td>Játékos, vagy az osztó első két lapjának összértéke pontosan 21.</td>
+                        </tr>
+                        <tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- https://hu.wikipedia.org/wiki/Huszonegy -->
+
+        <script src="app.js"></script>
+    </body>
+</html>
